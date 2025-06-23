@@ -387,7 +387,7 @@ describe('<Select />', () => {
           'MUI: You have provided an out-of-range value `20` for the select component.',
           // React 18 Strict Effects run mount effects twice
           React.version.startsWith('18') &&
-            'MUI: You have provided an out-of-range value `20` for the select component.',
+          'MUI: You have provided an out-of-range value `20` for the select component.',
           'MUI: You have provided an out-of-range value `20` for the select component.',
         ]);
       });
@@ -1045,6 +1045,20 @@ describe('<Select />', () => {
       expect(options[0]).to.have.attribute('aria-selected', 'true');
       expect(options[1]).not.to.have.attribute('aria-selected', 'true');
       expect(options[2]).to.have.attribute('aria-selected', 'true');
+    });
+
+    it('should have aria-multiselectable=true when multiple is true', () => {
+      const { getByRole } = render(
+        <Select multiple value={[10, 30]}>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>,
+      );
+
+      fireEvent.mouseDown(getByRole('button'));
+
+      expect(getByRole('listbox')).to.have.attribute('aria-multiselectable', 'true');
     });
 
     it('should serialize multiple select display value', () => {
