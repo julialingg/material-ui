@@ -77,21 +77,28 @@ describe('<Chip />', () => {
 
   describe('clickable chip', () => {
     it('renders as a button in taborder with the label as the accessible name', () => {
-      const { getByRole } = render(<Chip label="My Chip" onClick={() => {}} />);
+      const { getByRole } = render(<Chip label="My Chip" onClick={() => { }} />);
 
       const button = getByRole('button');
       expect(button).to.have.property('tabIndex', 0);
       expect(button).toHaveAccessibleName('My Chip');
     });
 
+    it('should render link with the button base', () => {
+      const { container } = render(<Chip component="a" clickable label="My text Chip" />);
+
+      expect(container.firstChild).to.have.class('MuiButtonBase-root');
+      expect(container.firstChild).to.have.tagName('a');
+    });
+
     it('should apply user value of tabIndex', () => {
-      const { getByRole } = render(<Chip label="My Chip" onClick={() => {}} tabIndex={5} />);
+      const { getByRole } = render(<Chip label="My Chip" onClick={() => { }} tabIndex={5} />);
 
       expect(getByRole('button')).to.have.property('tabIndex', 5);
     });
 
     it('should render with the root and clickable class', () => {
-      const { container } = render(<Chip label="My Chip" onClick={() => {}} />);
+      const { container } = render(<Chip label="My Chip" onClick={() => { }} />);
 
       const chip = container.querySelector(`.${classes.root}`);
       expect(chip).to.have.class(classes.root);
@@ -99,7 +106,7 @@ describe('<Chip />', () => {
     });
 
     it('should render with the root and clickable primary class', () => {
-      const { getByRole } = render(<Chip label="My Chip" onClick={() => {}} color="primary" />);
+      const { getByRole } = render(<Chip label="My Chip" onClick={() => { }} color="primary" />);
 
       const button = getByRole('button');
       expect(button).to.have.class(classes.root);
@@ -110,7 +117,7 @@ describe('<Chip />', () => {
 
     it('should render with the root and outlined clickable primary class', () => {
       const { container } = render(
-        <Chip color="primary" label="My Chip" onClick={() => {}} variant="outlined" />,
+        <Chip color="primary" label="My Chip" onClick={() => { }} variant="outlined" />,
       );
 
       const chip = container.querySelector(`.${classes.root}`);
@@ -124,7 +131,7 @@ describe('<Chip />', () => {
 
     it('should render with the root and clickable secondary class', () => {
       const { getByRole } = render(
-        <Chip color="secondary" label="My Chip" onClick={() => {}} variant="outlined" />,
+        <Chip color="secondary" label="My Chip" onClick={() => { }} variant="outlined" />,
       );
 
       const button = getByRole('button');
@@ -141,7 +148,7 @@ describe('<Chip />', () => {
         <Chip
           avatar={<Avatar id="avatar">MB</Avatar>}
           label="Text Avatar Chip"
-          onDelete={() => {}}
+          onDelete={() => { }}
         />,
       );
 
@@ -154,7 +161,7 @@ describe('<Chip />', () => {
         <Chip
           avatar={<Avatar id="avatar">MB</Avatar>}
           label="Text Avatar Chip"
-          onDelete={() => {}}
+          onDelete={() => { }}
           tabIndex={5}
         />,
       );
@@ -190,7 +197,7 @@ describe('<Chip />', () => {
           avatar={<Avatar id="avatar">MB</Avatar>}
           label="Text Avatar Chip"
           onClick={handleClick}
-          onDelete={() => {}}
+          onDelete={() => { }}
           deleteIcon={<div data-testid="delete-icon" />}
         />,
       );
@@ -206,7 +213,7 @@ describe('<Chip />', () => {
         <Chip
           avatar={<Avatar id="avatar">MB</Avatar>}
           label="Text Avatar Chip"
-          onDelete={() => {}}
+          onDelete={() => { }}
         />,
       );
 
@@ -219,7 +226,7 @@ describe('<Chip />', () => {
         <Chip
           avatar={<Avatar className="my-Avatar">MB</Avatar>}
           label="Text Avatar Chip"
-          onDelete={() => {}}
+          onDelete={() => { }}
           color="primary"
         />,
       );
@@ -237,7 +244,7 @@ describe('<Chip />', () => {
         <Chip
           avatar={<Avatar>MB</Avatar>}
           label="Text Avatar Chip"
-          onDelete={() => {}}
+          onDelete={() => { }}
           color="secondary"
         />,
       );
@@ -254,7 +261,7 @@ describe('<Chip />', () => {
   describe('prop: deleteIcon', () => {
     it('should render a default icon with the root, deletable, deleteIcon and deleteIconOutlinedColorSecondary classes', () => {
       const { getByRole, getByTestId } = render(
-        <Chip label="Custom delete icon Chip" onDelete={() => {}} />,
+        <Chip label="Custom delete icon Chip" onDelete={() => { }} />,
       );
 
       const icon = getByTestId('CancelIcon');
@@ -264,7 +271,7 @@ describe('<Chip />', () => {
 
     it('should render a default icon with the root, deletable and deleteIcon classes', () => {
       const { getByRole, getByTestId } = render(
-        <Chip label="Custom delete icon Chip" onDelete={() => {}} />,
+        <Chip label="Custom delete icon Chip" onDelete={() => { }} />,
       );
 
       const icon = getByTestId('CancelIcon');
@@ -274,7 +281,7 @@ describe('<Chip />', () => {
 
     it('should render default icon with the root, deletable and deleteIcon primary class', () => {
       const { container, getByTestId } = render(
-        <Chip label="Custom delete icon Chip" onDelete={() => {}} color="primary" />,
+        <Chip label="Custom delete icon Chip" onDelete={() => { }} color="primary" />,
       );
 
       const chip = container.querySelector(`.${classes.root}`);
@@ -288,7 +295,7 @@ describe('<Chip />', () => {
 
     it('should render a default icon with the root, deletable, deleteIcon secondary class', () => {
       const { container, getByTestId } = render(
-        <Chip label="Custom delete icon Chip" onDelete={() => {}} color="secondary" />,
+        <Chip label="Custom delete icon Chip" onDelete={() => { }} color="secondary" />,
       );
 
       const chip = container.querySelector(`.${classes.root}`);
@@ -315,7 +322,7 @@ describe('<Chip />', () => {
   describe('reacts to keyboard chip', () => {
     it('should call onKeyDown when a key is pressed', () => {
       const handleKeydown = stub().callsFake((event) => event.key);
-      const { getByRole } = render(<Chip onClick={() => {}} onKeyDown={handleKeydown} />);
+      const { getByRole } = render(<Chip onClick={() => { }} onKeyDown={handleKeydown} />);
       const chip = getByRole('button');
       act(() => {
         chip.focus();
@@ -331,7 +338,7 @@ describe('<Chip />', () => {
       const handleBlur = spy();
       const handleKeydown = spy();
       const { getByRole } = render(
-        <Chip onBlur={handleBlur} onClick={() => {}} onKeyDown={handleKeydown} />,
+        <Chip onBlur={handleBlur} onClick={() => { }} onKeyDown={handleKeydown} />,
       );
       const chip = getByRole('button');
       act(() => {
@@ -376,7 +383,7 @@ describe('<Chip />', () => {
           const handleDelete = spy();
           const handleKeyDown = spy((event) => event.defaultPrevented);
           const { getAllByRole } = render(
-            <Chip onClick={() => {}} onKeyDown={handleKeyDown} onDelete={handleDelete} />,
+            <Chip onClick={() => { }} onKeyDown={handleKeyDown} onDelete={handleDelete} />,
           );
           const chip = getAllByRole('button')[0];
           act(() => {
@@ -532,7 +539,7 @@ describe('<Chip />', () => {
     });
 
     it('should render the delete icon with the deleteIcon and deleteIconSmall classes', () => {
-      const { getByTestId } = render(<Chip size="small" onDelete={() => {}} />);
+      const { getByTestId } = render(<Chip size="small" onDelete={() => { }} />);
 
       const icon = getByTestId('CancelIcon');
       expect(icon).to.have.class(classes.deleteIcon);
@@ -542,7 +549,7 @@ describe('<Chip />', () => {
 
   describe('event: focus', () => {
     it('has a focus-visible polyfill', () => {
-      const { container } = render(<Chip label="Test Chip" onClick={() => {}} />);
+      const { container } = render(<Chip label="Test Chip" onClick={() => { }} />);
       const chip = container.querySelector(`.${classes.root}`);
       simulatePointerDevice();
 
@@ -562,7 +569,7 @@ describe('<Chip />', () => {
     });
 
     it('should reset the focused state', () => {
-      const { container, setProps } = render(<Chip label="Test Chip" onClick={() => {}} />);
+      const { container, setProps } = render(<Chip label="Test Chip" onClick={() => { }} />);
       const chip = container.querySelector(`.${classes.root}`);
 
       simulatePointerDevice();
