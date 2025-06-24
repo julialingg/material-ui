@@ -254,21 +254,14 @@ describe('useAutocomplete', () => {
       );
     };
 
-    const node16ErrorMessage =
-      "Error: Uncaught [TypeError: Cannot read properties of null (reading 'removeAttribute')]";
-    const olderNodeErrorMessage =
-      "Error: Uncaught [TypeError: Cannot read property 'removeAttribute' of null]";
-
-    const nodeVersion = Number(process.versions.node.split('.')[0]);
-    const errorMessage = nodeVersion >= 16 ? node16ErrorMessage : olderNodeErrorMessage;
-
     const devErrorMessages = [
-      errorMessage,
+      "Error: Uncaught [TypeError: Cannot read property 'removeAttribute' of null]",
       'MUI: Unable to find the input element.',
-      errorMessage,
+      "Error: Uncaught [TypeError: Cannot read property 'removeAttribute' of null]",
       // strict effects runs effects twice
       React.version.startsWith('18') && 'MUI: Unable to find the input element.',
-      React.version.startsWith('18') && errorMessage,
+      React.version.startsWith('18') &&
+      "Error: Uncaught [TypeError: Cannot read property 'removeAttribute' of null]",
       'The above error occurred in the <ul> component',
       React.version.startsWith('16') && 'The above error occurred in the <ul> component',
       'The above error occurred in the <Test> component',
@@ -295,7 +288,7 @@ describe('useAutocomplete', () => {
         return <input {...getInputProps()} />;
       };
       render(<Test options={['foo', 'bar']} />);
-      const input = screen.getByRole('textbox');
+      const input = screen.getByRole('combobox');
 
       act(() => {
         fireEvent.change(input, { target: { value: 'free' } });
