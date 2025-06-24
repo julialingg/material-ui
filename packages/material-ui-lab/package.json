@@ -53,7 +53,8 @@
     "react-is": "^16.8.0"
   },
   "devDependencies": {
-    "@material-ui/types": "^5.1.0"
+    "@material-ui/types": "^5.1.0",
+    "cross-env": "^7.0.3"
   },
   "sideEffects": false,
   "publishConfig": {
