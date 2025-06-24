@@ -11,6 +11,7 @@ import {
   prettyDOM,
   within,
 } from '@testing-library/react/pure';
+import userEvent from './user-event';
 
 // holes are *All* selectors which aren't necessary for id selectors
 const [queryDescriptionOf, , getDescriptionOf, , findDescriptionOf] = buildQueries(
@@ -157,9 +158,9 @@ export function createClientRender(globalOptions = {}) {
     if (setTimeout.hasOwnProperty('clock')) {
       const error = Error(
         "Can't cleanup before fake timers are restored.\n" +
-          'Be sure to:\n' +
-          '  1. Restore the clock in `afterEach` instead of `after`.\n' +
-          '  2. Move the test hook to restore the clock before the call to `createClientRender()`.',
+        'Be sure to:\n' +
+        '  1. Restore the clock in `afterEach` instead of `after`.\n' +
+        '  2. Move the test hook to restore the clock before the call to `createClientRender()`.',
       );
       // Use saved stack otherwise the stack trace will not include the test location.
       error.stack = createClientRenderStack;
@@ -272,7 +273,7 @@ export function fireTouchChangedEvent(target, type, options) {
 }
 
 export * from '@testing-library/react/pure';
-export { act, cleanup, fireEvent };
+export { act, cleanup, fireEvent, userEvent };
 // We import from `@testing-library/react` and `@testing-library/dom` before creating a JSDOM.
 // At this point a global document isn't available yet. Now it is.
 export const screen = within(document.body);
