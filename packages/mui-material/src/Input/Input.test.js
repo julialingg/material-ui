@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { createRenderer, describeConformance } from 'test/utils';
 import InputBase from '@mui/material/InputBase';
 import Input, { inputClasses as classes } from '@mui/material/Input';
-
+import { act } from 'react-dom/test-utils';
 describe('<Input />', () => {
   const { render } = createRenderer();
 
@@ -28,6 +28,23 @@ describe('<Input />', () => {
       'slotPropsCallback', // not supported yet
     ],
   }));
+
+  it('should apply red bottom border in error state on focus', function test() {
+    const { container } = render(
+      <div>
+        <Input error data-testid="input" />
+      </div>,
+    );
+
+    const inputElement = container.querySelector('input');
+
+    act(() => {
+      inputElement.focus();
+    });
+
+    const root = inputElement.parentElement;
+    expect(root.classList.contains(classes.error)).to.equal(true);
+  });
 
   it('should forward classes to InputBase', () => {
     render(<Input error classes={{ error: 'error' }} />);

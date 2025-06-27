@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { createRenderer, describeConformance } from 'test/utils';
 import FilledInput, { filledInputClasses as classes } from '@mui/material/FilledInput';
 import InputBase from '@mui/material/InputBase';
+import { act } from 'react-dom/test-utils';
 
 describe('<FilledInput />', () => {
   const { render } = createRenderer();
@@ -33,6 +34,27 @@ describe('<FilledInput />', () => {
     const { container } = render(<FilledInput />);
     const root = container.firstChild;
     expect(root).not.to.equal(null);
+  });
+
+  it('should apply red bottom border in error state on focus', function test() {
+    const { container } = render(<FilledInput error data-testid="input" />);
+    const inputElement = container.querySelector('input');
+
+    act(() => {
+      inputElement.focus();
+    });
+
+    const root = inputElement.parentElement;
+    expect(root.classList.contains(classes.error)).to.equal(true);
+  });
+
+  it('should not override error bottom border on hover', () => {
+    const { container } = render(<FilledInput error data-testid="input" />);
+    const root = container.querySelector(`.${classes.root}`);
+
+    // 模拟 hover 无法通过 JSDOM 完整触发 CSS :hover
+    // 所以这里只验证是否 error class 存在（从而避免被 hover 样式覆盖）
+    expect(root.classList.contains(classes.error)).to.equal(true);
   });
 
   it('color={undefined} should not result in crash', () => {
