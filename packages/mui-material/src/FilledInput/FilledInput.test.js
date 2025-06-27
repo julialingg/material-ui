@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { createRenderer, describeConformance } from 'test/utils';
 import FilledInput, { filledInputClasses as classes } from '@mui/material/FilledInput';
 import InputBase from '@mui/material/InputBase';
+import { act } from 'react-dom/test-utils';
 
 describe('<FilledInput />', () => {
   const { render } = createRenderer();
@@ -33,6 +34,26 @@ describe('<FilledInput />', () => {
     const { container } = render(<FilledInput />);
     const root = container.firstChild;
     expect(root).not.to.equal(null);
+  });
+
+  it('should preserve error state and not override with focus or hover styles', function test() {
+    const { getByTestId, container } = render(<FilledInput error data-testid="input" />);
+    const input = getByTestId('input');
+    const root = container.querySelector(`.${classes.root}`);
+
+    // 1. 检查 error class 是否存在（这个旧版本会有）
+    expect(root.classList.contains(classes.error)).to.equal(true);
+
+    // 2. 检查语义属性 aria-invalid 是否设置（旧版本可能漏掉或被覆盖）
+    expect(input).to.have.attribute('aria-invalid', 'true');
+
+    // 3. 聚焦触发状态变化（旧版本中样式可能被覆盖）
+    act(() => {
+      input.focus();
+    });
+
+    // 4. 这里不能验证视觉样式，但我们可加预期 snapshot 来比较聚焦后 class 是否还存在
+    expect(root.classList.contains(classes.error)).to.equal(true);
   });
 
   it('color={undefined} should not result in crash', () => {

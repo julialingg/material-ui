@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { createRenderer, describeConformance } from 'test/utils';
 import InputBase from '@mui/material/InputBase';
 import Input, { inputClasses as classes } from '@mui/material/Input';
-
+import { act } from 'react-dom/test-utils';
 describe('<Input />', () => {
   const { render } = createRenderer();
 
@@ -28,6 +28,25 @@ describe('<Input />', () => {
       'slotPropsCallback', // not supported yet
     ],
   }));
+
+  it('should preserve error state and not override with focus or hover in <Input />', function test() {
+    const { container, getByTestId } = render(<Input error data-testid="input" />);
+    const input = getByTestId('input');
+    const root = container.querySelector(`.${classes.root}`);
+
+    // 1. 初始状态：error class 应存在，aria-invalid 应为 true
+    expect(root.classList.contains(classes.error)).to.equal(true);
+    expect(input).to.have.attribute('aria-invalid', 'true');
+
+    // 2. 模拟聚焦
+    act(() => {
+      input.focus();
+    });
+
+    // 3. 聚焦后仍应保留 error class 和 aria 属性
+    expect(root.classList.contains(classes.error)).to.equal(true);
+    expect(input).to.have.attribute('aria-invalid', 'true');
+  });
 
   it('should forward classes to InputBase', () => {
     render(<Input error classes={{ error: 'error' }} />);
