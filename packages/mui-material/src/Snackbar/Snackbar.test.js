@@ -22,6 +22,13 @@ describe('<Snackbar />', () => {
     return result;
   }
 
+  it('should set role="presentation" on the Snackbar root to avoid announcement suppression', () => {
+    const { container } = render(<Snackbar open message="Accessible message" />);
+    const root = container.firstChild;
+
+    expect(root).to.have.attribute('role', 'presentation');
+  });
+
   describeConformance(<Snackbar open message="message" />, () => ({
     classes,
     inheritComponent: 'div',
